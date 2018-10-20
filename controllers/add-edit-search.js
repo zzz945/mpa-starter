@@ -1,24 +1,24 @@
 const router = require('express').Router()
-const DEFAULT_SEO = require('../common/settings.js').DEFAULT_SEO
+const config = require('../bin/config.js')
 
 const pages = [
-  {
-    path: '/add-edit-search',
-    template: 'add-edit-search',
-  },
+  'add-edit-search',
   {
     path: '/add-edit-search/add',
-    template: 'add-edit-search',
+    name: 'add-edit-search',
   },
   {
     path: '/add-edit-search/edit/:id',
-    template: 'add-edit-search',
+    name: 'add-edit-search',
   },
 ]
 
-pages.forEach(p => {
-  router.get(p.path, function (req, res) {
-    res.render(p.template, Object.assign({}, DEFAULT_SEO, p.locals))
+pages.forEach(page => {
+  if (typeof page === 'string') page = {name: page}
+  if (!page.path) page.path = '/' + page.name
+
+  router.get(page.path, function (req, res) {
+    res.sendFile(config.paths.assetsRoot + '/pages/' + page.name + '/index.html')
   })
 })
 

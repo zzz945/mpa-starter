@@ -57,6 +57,10 @@ mixin content ()
           path: 'dynamic-import',
           text: 'dynamic import, async component'
         },
+        {
+          path: '/prerender',
+          text: 'prerender'
+        },
       ]
     - for (var i = 0; i < data.length; i++)
       a(href=data[i].path)=`${i+1}: ${data[i].text}`

@@ -1,6 +1,8 @@
-// import Vue from 'vue'
-// import VueI18n from 'vue-i18n'
+import Vue from 'vue'
+import VueI18n from 'vue-i18n'
 import cookies from 'cookies-js'
+import Settings from 'root/common/settings.js'
+// import ElementUI from 'element-ui'
 
 export function i18nInit (params = {}) {
   const {
@@ -16,6 +18,8 @@ export function i18nInit (params = {}) {
     silentTranslationWarn: process.env.NODE_ENV === 'development'
   })
 
+  // ElementUI.locale(ElementUI.lang.zhCN)
+
   var html = document.querySelector("html");
   html.classList.add($LB.locale);
 
@@ -23,22 +27,25 @@ export function i18nInit (params = {}) {
 }
 
 export function changeLocale (locale) {
-  const prevLocale = $LB.locale
+  let prevLocale = $LB.locale
   if (locale === prevLocale) return
 
-  const defaultLocale = 'en-US'
-  const l = window.location
-  var url, pathname
   cookies.set('locale', locale)
 
-  if (locale === defaultLocale) {
+  prevLocale = prevLocale.toLowerCase()
+  locale = locale.toLowerCase()
+
+  const l = window.location
+  let url
+
+  if (locale === Settings.DEFAULT_LANG) {
     // 默认locale没有前缀
-    pathname = l.pathname.replace(`/${prevLocale.toLowerCase()}`, '')
+    const pathname = l.pathname.replace(`/${prevLocale}`, '')
     url = `//${l.host}${pathname}${l.search}${l.hash}`
   } else {
     // 其他的locale需要增加前缀，比如 https://www.lingobus.com/zh-CN/teacher-overview
-    pathname = l.pathname.replace(`/${prevLocale.toLowerCase()}`, `/${locale.toLowerCase()}`)
-    url = `//${l.host}/${locale.toLowerCase()}${pathname === '/' ? '' : pathname}${l.search}${l.hash}`
+    const pathname = l.pathname.replace(`/${prevLocale}`, `/${locale}`)
+    url = `//${l.host}/${locale}${pathname === '/' ? '' : pathname}${l.search}${l.hash}`
   }
   // 更新history并且reload
   location.replace(url)

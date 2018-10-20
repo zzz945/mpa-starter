@@ -21,12 +21,12 @@ module.exports = function (app) {
   utils.printEntries(entrys)
 
   const configs = entrys.map(params => {
-    const entry = {}
     // Multi-compiler mode need a name for webpack-hot-middleware to make sure bundles don't process each other's updates.
     // https://github.com/webpack-contrib/webpack-hot-middleware/tree/v2.24.3#multi-compiler-mode
-    entry[params.outputName] = [`./bin/hot-client.js?name=${params.name}&path=/__webpack_hmr&timeout=20000&reload=true`]
     const hmrConfig = {
-      entry,
+      entry: {
+        [params.jsName]: [`./bin/hot-client.js?name=${params.name}&path=/__webpack_hmr&timeout=20000&reload=true`]
+      },
       plugins: [
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),
@@ -37,14 +37,17 @@ module.exports = function (app) {
   })
 
   // console.log("=====================================")
-  // console.log(configs)
+  // console.log(JSON.stringify(configs, null, 2))
   // console.log("=====================================")
 
   // https://webpack.js.org/configuration/configuration-types/#exporting-multiple-configurations
   // but maybe we should not use multi-compiler, just use multiple entries: https://webpack.js.org/concepts/entry-points/#multi-page-application
   const compiler = webpack(configs)
   app.use(require("webpack-dev-middleware")(compiler, {
-    publicPath: config.paths.assetsPublicPath,
+    // webpack-dev-middleware just serve file under [publicPath], so write common assets to disk
+    writeToDisk: (filePath) => {
+      return /\/static\//.test(filePath);
+    },
     log: console.log,
     stats: {
       colors: true,

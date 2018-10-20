@@ -2,10 +2,11 @@
 require('colors')
 const path = require('path')
 const prettyjson = require('prettyjson')
-const buildPath = '../build'
+const buildPath = path.resolve(__dirname, '../build')
 
 const env = process.env.NODE_ENV === 'development' ? 'dev' : 'prod'
-const assetsRoot = path.resolve(__dirname, buildPath, env)
+const publicRoot = path.resolve(buildPath, env)
+const assetsRoot = path.resolve(publicRoot, 'static')
 
 const envconfigs = {
   port: process.env.PORT || 8080,
@@ -13,9 +14,9 @@ const envconfigs = {
     root: path.resolve(__dirname, '..'),
     src: path.resolve(__dirname, '../src'),
     build: path.resolve(__dirname, buildPath),
+    publicRoot,
     assetsRoot,
-    assetsPublicPath: '/static/',
-    compilationStatsOutput: path.resolve(assetsRoot, 'compilation-stats.json'),
+    compilationStatsOutput: path.resolve(publicRoot, 'compilation-stats.json'),
   },
   externals: {
     'axios': 'axios',
@@ -24,7 +25,7 @@ const envconfigs = {
     'vue-router': 'VueRouter',
     'vue-i18n': 'VueI18n',
     'vuex': 'Vuex',
-    'element-ui': 'Element',
+    'element-ui': 'ELEMENT',
     'lodash': '_',
   },
   alias: {
@@ -37,6 +38,7 @@ const envconfigs = {
     "mixin": path.resolve(__dirname, '../src/common/mixin'),
     "img": path.resolve(__dirname, '../src/common/img'),
     "fonts": path.resolve(__dirname, '../src/common/fonts'),
+    "css": path.resolve(__dirname, '../src/common/css'),
     "common": path.resolve(__dirname, '../src/common'),
     "root": path.resolve(__dirname, '..'),
   },

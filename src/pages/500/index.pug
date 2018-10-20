@@ -8,8 +8,3 @@ html
         b 500
       .text Internal Server Error
       button(onclick="history.back(-1)") Back
-      |<% if (isdev) { %>
-      pre(style="text-align:left;margin: 1em auto;width: 800px;border: 1px dashed gray;padding: 1em;overflow-x:auto;") <%= error %>
-      |<% } else { %>
-      pre(style="color:transparent") <%= error %>
-      |<% } %>

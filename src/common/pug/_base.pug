@@ -12,7 +12,7 @@ html
     +i18nMixin()
     block script
     block libcss
-      <link rel="stylesheet" href="/static/common/lib/element-ui@2.4.8/theme-chalk.css">
+      link(rel="stylesheet" href=`/static/common/lib/element-ui@2.4.8/theme-chalk.css`)
     block css
     block headjs
 
@@ -22,23 +22,14 @@ html
     block libjs
       //- make large dependences external to speed up compilition and browser will cache these
       //- remember to add externals in bin/config.js when add new lib
-      |<% if (isdev) { %>
-      script(src="/static/common/lib/axios@0.18.0/axios.js")
-      script(src="/static/common/lib/lodash@4.17.10/lodash.js")
-      script(src="/static/common/lib/moment@2.22.2/moment.js")
-      script(src="/static/common/lib/vue-i18n@8.1.0/vue-i18n.js")
-      script(src="/static/common/lib/vue-router@3.0.1/vue-router.js")
-      script(src="/static/common/lib/vue@2.5.7/vue.js")
-      script(src="/static/common/lib/vuex@3.0.1/vuex.js")
-      script(src="/static/common/lib/element-ui@2.4.8/element-ui.js")
-      |<% } else { %>
-      script(src="/static/common/lib/axios@0.18.0/axios.min.js")
-      script(src="/static/common/lib/lodash@4.17.10/lodash.min.js")
-      script(src="/static/common/lib/moment@2.22.2/moment.min.js")
-      script(src="/static/common/lib/vue-i18n@8.1.0/vue-i18n.min.js")
-      script(src="/static/common/lib/vue-router@3.0.1/vue-router.min.js")
-      script(src="/static/common/lib/vue@2.5.7/vue.min.js")
-      script(src="/static/common/lib/vuex@3.0.1/vuex.min.js")
-      script(src="/static/common/lib/element-ui@2.4.8/element-ui.js")
-      |<% } %>
+      script(src=`/static/common/lib/axios@0.18.0/axios${env==='dev'?'':'.min'}.js`)
+      script(src=`/static/common/lib/lodash@4.17.10/lodash${env==='dev'?'':'.min'}.js`)
+      script(src=`/static/common/lib/moment@2.22.2/moment${env==='dev'?'':'.min'}.js`)
+      script(src=`/static/common/lib/vue-i18n@8.1.0/vue-i18n${env==='dev'?'':'.min'}.js`)
+      script(src=`/static/common/lib/vue-router@3.0.1/vue-router${env==='dev'?'':'.min'}.js`)
+      script(src=`/static/common/lib/vue@2.5.7/vue${env==='dev'?'':'.min'}.js`)
+      script(src=`/static/common/lib/vuex@3.0.1/vuex${env==='dev'?'':'.min'}.js`)
+      script(src=`/static/common/lib/element-ui@2.4.8/element-ui.js`)
+      //- script(src="//unpkg.com/element-ui/lib/umd/locale/zh-CN.js")
+      //- script(src="//unpkg.com/element-ui/lib/umd/locale/en.js")
     block js

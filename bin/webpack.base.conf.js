@@ -1,31 +1,37 @@
 const webpack = require('webpack')
 const path = require('path')
 const config = require('./config.js')
+const Settings = require('../common/settings.js')
+const utils = require('./utils.js')
 const env = process.env.NODE_ENV === 'development' ? 'dev' : 'prod'
 
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const imageLoader = {
-  test: config.imgReg,
-  loader: 'url-loader',
-  query: {
-    emitFile: true,
-    context: path.join(config.paths.src),
-    limit: 10000,
-    // url-loader(use file-loader inside) hash means contenthash: https://github.com/webpack-contrib/file-loader/issues/177
-    name: env === 'dev' ? '[path][name].[ext]' : `[path][name].[hash:${config.imgHashLength}].[ext]`
+function getImageLoader (context) {
+  return {
+    test: config.imgReg,
+    loader: 'url-loader',
+    query: {
+      context,
+      limit: 10000,
+      // url-loader(use file-loader inside) hash means contenthash: https://github.com/webpack-contrib/file-loader/issues/177
+      name: env === 'dev' ? '[path][name].[ext]' : `[path][name].[hash:${config.imgHashLength}].[ext]`
+    }
   }
 }
 
-const fontLoader = {
-  test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-  loader: 'url-loader',
-  query: {
-    limit: 10000,
-    // url-loader(use file-loader inside) hash means contenthash: https://github.com/webpack-contrib/file-loader/issues/177
-    name: env === 'dev' ? 'common/fonts/[name].[ext]' : `common/fonts/[name].[hash:${config.imgHashLength}].[ext]`
+function getFontLoader (context) {
+  return {
+    test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+    loader: 'url-loader',
+    query: {
+      limit: 10000,
+      context,
+      // url-loader(use file-loader inside) hash means contenthash: https://github.com/webpack-contrib/file-loader/issues/177
+      name: env === 'dev' ? '[path][name].[ext]' : `[path][name].[hash:${config.imgHashLength}].[ext]`
+    }
   }
 }
 
@@ -60,21 +66,21 @@ const pugLoader = {
 }
 
 function getBaseConf (params) {
-  const name = params.name
-  const outputName = params.outputName // js output path + name
-  const entryPath = params.entryPath // js entry path
-  const pugTemplate = entryPath.substring(0, params.entryPath.lastIndexOf('.')) + '.pug'
-  const htmlOutput = outputName.substring(0, params.entryPath.lastIndexOf('.')) + '.ejs'
+  const {name, js, jsName, pug, publicPath, pageSrcDir, multilang} = params
+  const jsFullPath = path.join(pageSrcDir, js)
+  const pugFullPath = path.join(pageSrcDir, pug)
+
   const entry = {}
-  entry[outputName] = [entryPath]
-  return {
+  entry[jsName] = [jsFullPath]
+
+  const c = {
     name,
     target: 'web',
     context: config.paths.root,
     output: {
-      path: config.paths.assetsRoot,
+      path: config.paths.publicRoot + publicPath,
       filename: env == 'dev' ? '[name].js' : '[name].[contenthash].js',
-      publicPath: config.paths.assetsPublicPath,
+      publicPath,
     },
     entry,
     externals: config.externals,
@@ -82,21 +88,62 @@ function getBaseConf (params) {
       alias: config.alias
     },
     module: {
-      rules: [imageLoader, fontLoader, jsLoader, vueLoader, pugLoader]
+      rules: [getImageLoader(pageSrcDir), getFontLoader(config.paths.src), jsLoader, vueLoader, pugLoader]
     },
     plugins: [
       new VueLoaderPlugin(),
-      new HtmlWebpackPlugin({
-        filename: htmlOutput,
-        template: pugTemplate,
-        alwaysWriteToDisk: true,
-      }),
-      new CopyWebpackPlugin([{
-        from: path.join(config.paths.src, 'common/lib'),
-        to: path.join(config.paths.assetsRoot, 'common/lib')
-      }])
+      new CopyWebpackPlugin([
+        {
+          from: path.join(config.paths.src, 'common/lib'),
+          to: path.join(config.paths.assetsRoot, 'common/lib'),
+        },
+        {
+          from: path.join(config.paths.src, 'common/fonts'),
+          to: path.join(config.paths.assetsRoot, 'common/fonts'),
+        }
+      ])
     ]
   }
+
+  if (multilang) {
+    // generate one html per language
+    c.plugins = c.plugins.concat(Settings.SUPPORTED_LANGS.map(lang => {
+      let htmlOutputPath = publicPath
+      if (params.name === 'index') htmlOutputPath = '/'
+
+      let langPath = '/' + lang
+      if (lang === Settings.DEFAULT_LANG) langPath = '/'
+
+      const outputFullPath = config.paths.publicRoot + langPath + htmlOutputPath + '/index.html'
+      return new HtmlWebpackPlugin({
+        filename: outputFullPath,
+        template: pugFullPath,
+        alwaysWriteToDisk: true,
+        templateParameters: {
+          ...Settings.DEFAULT_SEO,
+          locale: utils.formatLocale(lang),
+          env,
+        }
+      })
+    }))
+  } else {
+    let htmlOutputPath = publicPath
+    if (params.name === 'index') htmlOutputPath = '/'
+    const outputFullPath = config.paths.publicRoot + htmlOutputPath + '/index.html'
+    c.plugins.push(new HtmlWebpackPlugin({
+      filename: outputFullPath,
+      template: pugFullPath,
+      alwaysWriteToDisk: true,
+      templateParameters: {
+        ...Settings.DEFAULT_SEO,
+        locale: utils.formatLocale(params.lang || Settings.DEFAULT_LANG),
+        env,
+      }
+    }))
+  }
+
+
+  return c
 }
 
 module.exports = getBaseConf

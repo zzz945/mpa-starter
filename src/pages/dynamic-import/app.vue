@@ -1,5 +1,5 @@
 <template lang="pug">
-  el-tabs.dynamic-import(v-model="activeTab")
+  el-tabs#root(v-model="activeTab")
     el-tab-pane(label="Module 1", name="module1")
       async-component1(v-if="activeTab === 'module1'")
     el-tab-pane(label="Module 2", name="module2")
@@ -7,7 +7,7 @@
 </template>
 
 <style lang="stylus" scoped>
-.dynamic-import
+#root
   padding: 100px
 </style>
 
@@ -18,8 +18,8 @@
     name: 'dynamic-import',
     mixins: [MessageMixin],
     components: {
-      'async-component1': () => import(/* webpackChunkName: "pages/dynamic-import/async-component1" */'./async-component1.vue'),
-      'async-component2': () => import(/* webpackChunkName: "pages/dynamic-import/async-component2" */'./async-component2.vue'),
+      'async-component1': () => import(/* webpackChunkName: "async-component1" */'./async-component1.vue'),
+      'async-component2': () => import(/* webpackChunkName: "async-component2" */'./async-component2.vue'),
     },
     data () {
       return {
@@ -28,7 +28,7 @@
     },
     watch: {
       activeTab () {
-        import(/* webpackChunkName: "pages/dynamic-import/dynamic-module" */'./dynamic-module.js').then(({ default: sayHello }) => {
+        import(/* webpackChunkName: "dynamic-module" */'./dynamic-module.js').then(({ default: sayHello }) => {
           sayHello(this.$info)
         })
       }

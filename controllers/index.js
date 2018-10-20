@@ -1,64 +1,51 @@
 const router = require('express').Router()
-const DEFAULT_SEO = require('../common/settings.js').DEFAULT_SEO
+const config = require('../bin/config.js')
+const Settings = require('../common/settings.js')
 
 function applyRouter(app) {
-  // lottie
-  // intro.js
-  // 视差动画 scrollreveal，scrollmagic
+  // render index
+  router.get('/', function (req, res) {
+    res.sendFile(config.paths.assetsRoot + '/pages/index/index.html')
+  })
+
+  // index i18n
+  Settings.SUPPORTED_LANGS.forEach(lang => {
+    if (lang !== Settings.DEFAULT_LANG) {
+      router.get('/' + lang, function (req, res) {
+        res.sendFile(config.paths.assetsRoot + '/pages/index/' + lang + '/index.html')
+      })
+    }
+  })
+
+  // render other pages
   const pages = [
-    {
-      path: '/',
-      template: 'index',
-    },
-    {
-      path: '/bem',
-      template: 'bem',
-    },
-    {
-      path: '/mobile-layout1',
-      template: 'mobile-layout1',
-    },
-    {
-      path: '/mobile-layout2',
-      template: 'mobile-layout2',
-    },
-    {
-      path: '/mobile-layout3',
-      template: 'mobile-layout3',
-    },
-    {
-      path: '/mobile-layout4',
-      template: 'mobile-layout4',
-    },
-    {
-      path: '/lazyload',
-      template: 'lazyload',
-    },
-    {
-      path: '/login',
-      template: 'login',
-    },
-    {
-      path: '/register',
-      template: 'register',
-    },
-    {
-      path: '/reset-password',
-      template: 'reset-password',
-    },
-    {
-      path: '/dynamic-import',
-      template: 'dynamic-import',
-    },
+    'bem',
+    'mobile-layout1',
+    'mobile-layout2',
+    'mobile-layout3',
+    'mobile-layout4',
+    'lazyload',
+    'login',
+    'register',
+    'reset-password',
+    'dynamic-import',
   ]
 
-  pages.forEach(p => {
-    router.get(p.path, function (req, res) {
-      res.render(p.template, Object.assign({}, DEFAULT_SEO, p.locals))
+  pages.forEach(page => {
+    if (typeof page === 'string') page = {name: page}
+    if (!page.path) page.path = '/' + page.name
+
+    // other page i18n
+    router.get('/:locale' + page.path, function (req, res) {
+      res.sendFile(config.paths.assetsRoot + '/pages/' + page.name + '/' + req.params.locale + '/index.html')
+    })
+
+    router.get(page.path, function (req, res) {
+      res.sendFile(config.paths.assetsRoot + '/pages/' + page.name + '/index.html')
     })
   })
 
-  app.use(require('./i18n'))
+  // app.use(require('./i18n'))
   app.use(require('./add-edit-search'))
   app.use(router)
 }

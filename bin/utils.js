@@ -1,38 +1,36 @@
-var path = require('path')
-var glob = require('glob')
-var config = require('./config.js')
-var settings = require('../common/settings.js')
+const glob = require('glob')
+const config = require('./config.js')
 
-function getEntries(extensions) {
-  extensions = extensions || ['.js']
+function getEntries() {
   const srcPath = config.paths.src
   const pagesPath = srcPath + '/pages'
-  const res = []
-  extensions.forEach(ext => {
-    let files = glob.sync(pagesPath + "/*/index" + ext) // for example: page/home/index.js
-    settings.SUPPORTED_LANGS.forEach(lang => {
-      files = files.concat(glob.sync(pagesPath + "/*/" + lang + "/index" + ext)) // for example: page/home/en-us/index.js
-    })
-
-    files.forEach(function(filepath) {
-      const outputName = path.relative(srcPath, filepath.substring(0, filepath.lastIndexOf('.')))
-      const entry = {
-        name: outputName.split('/')[1],
-        entryPath: filepath,
-        outputName,
-      }
-      res.push(entry)
-    })
+  const manifests = glob.sync(pagesPath + "/**/__page_manifest__.js")
+  return manifests.map(manifestFilePath => {
+    const manifest = require(manifestFilePath)
+    return {
+      ...manifest,
+      jsName: manifest.js.substring(manifest.js.indexOf('/')+1, manifest.js.lastIndexOf('.')),
+      manifestFilePath,
+      pageSrcDir: manifestFilePath.substring(0, manifestFilePath.lastIndexOf('/'))
+    }
   })
-  return res
 }
 
 function printEntries(entries) {
   console.log('Entries'.cyan.bold)
   entries.forEach(entry => {
-    console.log(entry.entryPath.yellow)
+    console.log(entry)
   })
+}
+
+/**
+ * 将 en-us 转换为 en-US
+ */
+function formatLocale(str) {
+  str = str.split('-')
+  return str[0] + '-' + str[1].toUpperCase()
 }
 
 exports.getEntries = getEntries
 exports.printEntries = printEntries
+exports.formatLocale = formatLocale
