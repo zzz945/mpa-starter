@@ -81,7 +81,7 @@ function getProdConf (params) {
         new UglifyJsPlugin({
           cache: true,
           parallel: true,
-          sourceMap: true // set to true if you want JS source maps
+          sourceMap: true, // set to true if you want JS source maps
         }),
         new OptimizeCSSAssetsPlugin({})
       ],
@@ -139,7 +139,7 @@ function getProdConf (params) {
           },
           renderer: new Renderer({
             renderAfterDocumentEvent: 'render-event',
-            headless: false,
+            // headless: false,
           })
         })
       }))

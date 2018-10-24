@@ -30,6 +30,7 @@ const envconfigs = {
   },
   alias: {
     '@': path.resolve(__dirname, '../src'),
+    "mpa-common-library": path.resolve(__dirname, '../src/mpa-common-library'),
     "pages": path.resolve(__dirname, '../src/pages'),
     "components": path.resolve(__dirname, '../src/common/components'),
     "api": path.resolve(__dirname, '../src/common/api'),

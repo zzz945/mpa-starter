@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { pageInit } from 'utils/_page-common.js'
+import { pageInit } from 'mpa-common-library/utils/_page-common.js'
 import './index.styl'
 
 pageInit ({

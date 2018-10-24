@@ -1,7 +1,7 @@
 /* eslint-disable */
-import { pageInit } from 'utils/_spa-common.js'
+import { pageInit } from 'mpa-common-library/utils/_spa-common.js'
 import './index.styl'
-import { cookie, local, session } from 'utils/_storage.js'
+import { cookie, local, session } from 'mpa-common-library/utils/_storage.js'
 
 pageInit({
   vue: {

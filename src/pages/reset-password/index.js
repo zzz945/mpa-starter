@@ -1,12 +1,12 @@
 /* eslint-disable */
-import { pageInit } from 'utils/_page-common.js'
+import { pageInit } from 'mpa-common-library/utils/_page-common.js'
 import './index.styl'
 
-import PasswordInput from 'components/password-input/index.vue'
+import PasswordInput from 'mpa-common-library/components/password-input/index.vue'
 import api from 'api/_login.api.js'
-import MessageMixin from "mixin/message"
+import MessageMixin from "mpa-common-library/mixin/message"
 
-import {validatePhone, validateEmail, validatePassword} from 'utils/_validator.js'
+import {validatePhone, validateEmail, validatePassword} from 'mpa-common-library/utils/_validator.js'
 
 pageInit ({
   vue: {

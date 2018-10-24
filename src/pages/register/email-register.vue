@@ -54,10 +54,10 @@
 
 <script>
 
-import PasswordInput from 'components/password-input/index.vue'
-import {validateEmail, validatePassword} from 'utils/_validator.js'
+import PasswordInput from 'mpa-common-library/components/password-input/index.vue'
+import {validateEmail, validatePassword} from 'mpa-common-library/utils/_validator.js'
 import api from 'api/_register.api.js'
-import MessageMixin from "mixin/message"
+import MessageMixin from "mpa-common-library/mixin/message"
 
 export default {
   name: 'email-register',

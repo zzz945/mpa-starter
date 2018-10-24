@@ -28,7 +28,7 @@
 
 <script>
 
-import MessageMixin from "mixin/message"
+import MessageMixin from "mpa-common-library/mixin/message"
 import validationRules from '../validation-rules.js'
 import api from 'api/_add-edit-search.api.js'
 

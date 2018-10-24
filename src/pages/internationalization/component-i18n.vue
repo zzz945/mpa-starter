@@ -15,7 +15,7 @@ p
 </style>
 
 <script>
-  import { changeLocale } from 'utils/i18n'
+  import { changeLocale } from 'mpa-common-library/utils/i18n'
 
   export default {
     i18n: {

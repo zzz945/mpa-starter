@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { pageInit } from 'utils/_page-common.js'
+import { pageInit } from 'mpa-common-library/utils/_page-common.js'
 import ComponentI18n from '../component-i18n.vue'
 import './index.styl'
 

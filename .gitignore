@@ -18,5 +18,5 @@ yarn-error.log*
 proxy-table.dev.js
 
 #project
-/views
+/src/mpa-common-library
 .vscode

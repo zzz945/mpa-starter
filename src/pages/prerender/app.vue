@@ -14,7 +14,7 @@
 </style>
 
 <script>
-  import MessageMixin from "mixin/message"
+  import MessageMixin from "mpa-common-library/mixin/message"
 
   export default {
     i18n: {

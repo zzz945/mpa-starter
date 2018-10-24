@@ -44,7 +44,6 @@ const jsLoader = {
   test: /\.js$/,
   loader: 'babel-loader',
   exclude: /node_modules/,
-  include: config.paths.src,
   query: {
     cacheDirectory: path.resolve(config.paths.build, 'tmp')
   }

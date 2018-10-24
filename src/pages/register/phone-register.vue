@@ -54,10 +54,10 @@
 
 <script>
 
-import PasswordInput from 'components/password-input/index.vue'
-import {validatePhone, validatePassword} from 'utils/_validator.js'
+import PasswordInput from 'mpa-common-library/components/password-input/index.vue'
+import {validatePhone, validatePassword} from 'mpa-common-library/utils/_validator.js'
 import api from 'api/_login.api.js'
-import MessageMixin from "mixin/message"
+import MessageMixin from "mpa-common-library/mixin/message"
 
 export default {
   name: 'phone-register',

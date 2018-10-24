@@ -1,4 +1,4 @@
-import {validateEmail, validatePhone, validateOnlyNumber} from 'utils/_validator.js'
+import {validateEmail, validatePhone, validateOnlyNumber} from 'mpa-common-library/utils/_validator.js'
 
 export default {
   phone: {

@@ -1,10 +1,10 @@
 /* eslint-disable */
-import { pageInit } from 'utils/_page-common.js'
+import { pageInit } from 'mpa-common-library/utils/_page-common.js'
 import './index.styl'
 
 import EmailRegister from './email-register.vue'
 import PhoneRegister from './phone-register.vue'
-import MessageMixin from "mixin/message"
+import MessageMixin from "mpa-common-library/mixin/message"
 
 const TYPE_PHONE = '1'
 const TYPE_EMAIL = '2'

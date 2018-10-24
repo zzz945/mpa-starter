@@ -1,5 +1,5 @@
 <template lang="pug">
-  extends ../../../common/mixin/search/index
+  extends ../../../mpa-common-library/mixin/search/index
 
   block querybar-form-items
     el-form-item(
@@ -32,12 +32,12 @@
 </template>
 
 <style lang="stylus" scoped>
-@import '../../../common/mixin/search/index.styl'
+@import '~mpa-common-library/mixin/search/index.styl'
 </style>
 
 <script>
 
-import SearchMixin from 'mixin/search'
+import SearchMixin from 'mpa-common-library/mixin/search'
 import api from 'api/_add-edit-search.api.js'
 import validationRules from '../validation-rules.js'
 
