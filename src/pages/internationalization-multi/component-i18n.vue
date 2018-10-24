@@ -15,7 +15,7 @@ p
 </style>
 
 <script>
-  import { changeLocale } from 'compound-utils/i18n'
+  import { changeLocale } from 'utils/i18n'
 
   export default {
     i18n: {
