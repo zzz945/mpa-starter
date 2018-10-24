@@ -61,6 +61,10 @@ mixin content ()
           path: '/prerender',
           text: 'prerender'
         },
+        {
+          path: '/storage-management',
+          text: 'cookie,localstorage,sessionstorage management'
+        },
       ]
     - for (var i = 0; i < data.length; i++)
       a(href=data[i].path)=`${i+1}: ${data[i].text}`
