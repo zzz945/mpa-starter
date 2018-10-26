@@ -8,7 +8,7 @@
     "release": "cross-env NODE_ENV=production node ./bin/build.js",
     "analyzer": "webpack-bundle-analyzer ./build/prod/compilation-stats.json"
   },
-  "author": "zhangdaiyan <zhangdaiyan@vipkid.com.cn>",
+  "author": "zhangdaiyan <zhangdaiyan@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@babel/core": "7.1.2",

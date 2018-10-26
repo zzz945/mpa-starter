@@ -24,7 +24,7 @@
 
 ``` bash
 # download repo
-git clone https://github.com/lingobus/mpa-starter.git
+git clone https://github.com/zzz945/mpa-starter.git
 cd mpa-starter/src
 git clone https://github.com/zzz945/mpa-common-library.git
 cd ..
