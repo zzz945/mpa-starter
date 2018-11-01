@@ -54,6 +54,7 @@ app.use(function(req, res) {
 /* 500 */
 app.use(function(error, req, res, next) {
   res.status(500);
+  console.log(error)
   res.sendFile(`${config.paths.publicRoot}/500/index.html`)
 })
 
