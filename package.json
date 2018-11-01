@@ -4,6 +4,10 @@
   "description": "A Vue.js project",
   "main": "app.js",
   "scripts": {
+    "clone": "npm run clone-demo;npm run clone-common",
+    "clone-demo": "git clone https://github.com/zzz945/mpa-demos.git ./src/pages",
+    "clone-common": "git clone https://github.com/zzz945/mpa-common-library.git ./src/mpa-common-library",
+    "clean": "rm -rf build src/pages src/mpa-common-library",
     "start": "cross-env HMR=true NODE_ENV=development WEBPACK=all node app.js",
     "release": "cross-env NODE_ENV=production node ./bin/build.js",
     "analyzer": "webpack-bundle-analyzer ./build/prod/compilation-stats.json"
