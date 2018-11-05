@@ -21,3 +21,4 @@ proxy-table.dev.js
 /src/mpa-common-library
 /src/pages
 .vscode
+tokens.js

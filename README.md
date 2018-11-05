@@ -37,6 +37,9 @@ npm start
 # build all pages for production
 npm run release
 
+# build all pages for production and upload to qiniu(see /bin/qiniu-upload.js, you must provide ak, sk and bucket)
+UPLOAD=true npm run release
+
 # specify one page
 PAGE=login npm start
 PAGE=login npm run release

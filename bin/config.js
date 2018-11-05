@@ -16,7 +16,7 @@ const envconfigs = {
     build: path.resolve(__dirname, buildPath),
     publicRoot,
     assetsRoot,
-    compilationStatsOutput: path.resolve(publicRoot, 'compilation-stats.json'),
+    compilationStatsOutput: path.resolve(buildPath, 'compilation-stats.json'),
   },
   externals: {
     'axios': 'axios',

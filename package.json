@@ -8,8 +8,9 @@
     "clone-demo": "git clone https://github.com/zzz945/mpa-demos.git ./src/pages",
     "clone-common": "git clone https://github.com/zzz945/mpa-common-library.git ./src/mpa-common-library",
     "clean": "rm -rf build src/pages src/mpa-common-library",
+    "clean-build": "rm -rf build",
     "start": "cross-env HMR=true NODE_ENV=development WEBPACK=all node app.js",
-    "release": "cross-env NODE_ENV=production node ./bin/build.js",
+    "release": "npm run clean-build;cross-env NODE_ENV=production node ./bin/build.js",
     "analyzer": "webpack-bundle-analyzer ./build/prod/compilation-stats.json"
   },
   "author": "zhangdaiyan <zhangdaiyan@gmail.com>",
@@ -60,7 +61,8 @@
     "webpack-bundle-analyzer": "3.0.3",
     "webpack-dev-middleware": "3.4.0",
     "webpack-hot-middleware": "2.24.3",
-    "webpack-merge": "4.1.4"
+    "webpack-merge": "4.1.4",
+    "qiniu": "7.2.1"
   },
   "dependencies": {
     "cookies-js": "1.2.3",
