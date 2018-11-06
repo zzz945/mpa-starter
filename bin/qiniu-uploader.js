@@ -43,11 +43,23 @@ function uploadOneFile(filePath) {
   const destPath = $path.relative(config.paths.publicRoot, filePath)
   const token = getToken(destPath)
   return new Promise((resolve, reject) => {
-    //额外参数, svg 需要指定mime
+    //额外参数
     const params = {}
+    // svg 需要指定mime
     if (/svg$/i.test($path.extname(filePath))) {
       params.mimeType = 'image/svg+xml'
     }
+    // html js css需指定编码，否则会出现中文乱码问题
+    else if (/js$/i.test($path.extname(filePath))) {
+      params.mimeType = 'application/javascript; charset=utf-8'
+    }
+    else if (/html$/i.test($path.extname(filePath))) {
+      params.mimeType = 'text/html; charset=utf-8'
+    }
+    else if (/css$/i.test($path.extname(filePath))) {
+      params.mimeType = 'text/css; charset=utf-8'
+    }
+
     var putExtra = new qiniu.form_up.PutExtra(params)
 
     formUploader.putFile(token,
