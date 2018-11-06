@@ -65,7 +65,7 @@ const pugLoader = {
 }
 
 function getBaseConf (params) {
-  const {name, js, jsName, pug, publicPath, pageSrcDir, multilang} = params
+  const {name, js, jsName, pug, publicPath, pageSrcDir, multilang, routes} = params
   const jsFullPath = path.join(pageSrcDir, js)
   const pugFullPath = path.join(pageSrcDir, pug)
 
@@ -125,6 +125,20 @@ function getBaseConf (params) {
         }
       })
     }))
+  } else if (routes) {
+    routes.forEach(route => {
+      const outputFullPath = path.join(config.paths.publicRoot, publicPath, route, '/index.html')
+      c.plugins.push(new HtmlWebpackPlugin({
+        filename: outputFullPath,
+        template: pugFullPath,
+        alwaysWriteToDisk: true,
+        templateParameters: {
+          ...Settings.DEFAULT_SEO,
+          locale: utils.formatLocale(params.lang || Settings.DEFAULT_LANG),
+          env,
+        }
+      }))
+    })
   } else {
     let htmlOutputPath = publicPath
     if (params.name === 'index') htmlOutputPath = '/'
@@ -140,7 +154,6 @@ function getBaseConf (params) {
       }
     }))
   }
-
 
   return c
 }

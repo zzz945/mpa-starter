@@ -5,10 +5,11 @@
   "main": "app.js",
   "scripts": {
     "clone": "npm run clone-demo;npm run clone-common",
-    "clone-demo": "git clone https://github.com/zzz945/mpa-demos.git ./src/pages",
-    "clone-common": "git clone https://github.com/zzz945/mpa-common-library.git ./src/mpa-common-library",
+    "clone-demo": "git clone https://github.com/zzz945/mpa-demos.git ./src/pages;cd ./src/pages;git checkout static;cd ../..",
+    "clone-common": "git clone https://github.com/zzz945/mpa-common-library.git ./src/mpa-common-library;cd ./src/mpa-common-library;git checkout static;cd ../..",
     "clean": "rm -rf build src/pages src/mpa-common-library",
     "clean-build": "rm -rf build",
+    "upload": "node ./bin/upload.js",
     "start": "cross-env HMR=true NODE_ENV=development WEBPACK=all node app.js",
     "release": "npm run clean-build;cross-env NODE_ENV=production node ./bin/build.js",
     "analyzer": "webpack-bundle-analyzer ./build/prod/compilation-stats.json"

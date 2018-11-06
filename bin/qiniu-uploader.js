@@ -112,7 +112,6 @@ function cleanBucket (bucket) {
       groups[i] = items.slice(start, end)
       left -= perGroup
     }
-    console.log(groups)
 
     groups.forEach(group => {
       const deleteOperations = group.map(file => qiniu.rs.deleteOp(bucket, file))
